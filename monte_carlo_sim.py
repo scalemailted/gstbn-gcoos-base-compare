@@ -68,7 +68,7 @@ def insert_observer_node(trial_size, gcoos_coords,hycom_coords, lon_min, lon_max
     #results = pool.map(run_trial, inputs)
     # Use the multiprocessing package to run the tasks on multiple GPUs
     with Pool(processes=num_gpus) as pool:
-        pool.starmap(run_trial, inputs)
+        pool.map(run_trial, inputs)
     # Close the pool
     #pool.close()
     # Call the timer function for a log message on elapsed time
