@@ -36,7 +36,7 @@ def main():
 
 
 # Define a function that runs a single trial of the simulation
-def run_trial(gpu_id, inputs):
+def run_trial(inputs):
     gpu_id, data = inputs
     # Set the GPU that the worker process will use
     with tf.device(f"/gpu:{gpu_id}"):
@@ -68,7 +68,7 @@ def insert_observer_node(trial_size, gcoos_coords,hycom_coords, lon_min, lon_max
     #results = pool.map(run_trial, inputs)
     # Use the multiprocessing package to run the tasks on multiple GPUs
     with Pool(processes=num_gpus) as pool:
-        pool.map(run_trial, inputs)
+        results = pool.starmap(run_trial, inputs)
     # Close the pool
     #pool.close()
     # Call the timer function for a log message on elapsed time
