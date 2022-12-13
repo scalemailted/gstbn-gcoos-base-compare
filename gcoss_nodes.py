@@ -201,7 +201,7 @@ def merge_gcoos_frames(federal, ldn):
 
 
 #load all csv files
-def get_gcoos_dataframe(folder='./gcoos_dataset'):
+def get_gcoos_dataframe(folder='gstbn-gcoos-base-compare/gcoos_dataset'):
     federal = pd.read_csv(f"{folder}/gcoos-federal-sensors.csv")
     ldn = pd.read_csv(f"{folder}/gcoos-ldn-sensors.csv")
     gcoos = merge_gcoos_frames(federal, ldn)
