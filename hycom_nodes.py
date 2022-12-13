@@ -102,7 +102,7 @@ def get_nodes_roi_at_time(nodelist, time):
                 data[ncvar] = node.roi.timesnaps[time][ncvar]
             roi_snapshot.append(data)
     snapshot_df = pandas.DataFrame.from_records(roi_snapshot)
-    snapshot_df = pd.DataFrame.from_pandas(snapshot_df)
+    #snapshot_df = pd.DataFrame.from_pandas(snapshot_df)
     return snapshot_df
 
 def draw_snapshot_nodes_roi(roi_snapshot):
