@@ -33,7 +33,7 @@ def get_edgelist(df):
     lonlat_df = gcoos_df[['Lon','Lat']].copy()
     #node_id = find_nearest_node_gcoos(lonlat_df,-90,30)
     #print(node_id)
-    edgelist = [find_nearest_node_gcoos(lonlat_df,lon,lat) for lon, lat in zip(df['Lon'], df['Lat'])]
+    edgelist = [find_nearest_node_gcoos(lonlat_df,lon,lat) for lon, lat in zip(df['lon'], df['lat'])]
     edges_df = pd.concat(edgelist, axis=0)
     print(edges_df)
     return edges_df
@@ -89,7 +89,7 @@ def main():
     draw_edges(edge_df, ax)
     show()
 
-
+import pandas
 def get_nodes_roi_at_time(nodelist, time):
     roi_snapshot = [] 
     for node in nodelist.values():
@@ -101,7 +101,8 @@ def get_nodes_roi_at_time(nodelist, time):
             for ncvar in observations:
                 data[ncvar] = node.roi.timesnaps[time][ncvar]
             roi_snapshot.append(data)
-    snapshot_df = pd.DataFrame.from_records(np.array(roi_snapshot))
+    snapshot_df = pandas.DataFrame.from_records(roi_snapshot)
+    snapshot_df = pd.DataFrame.from_pandas(snapshot_df)
     return snapshot_df
 
 def draw_snapshot_nodes_roi(roi_snapshot):
