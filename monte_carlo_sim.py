@@ -55,7 +55,7 @@ def insert_observer_node(trial_size, gcoos_coords,hycom_coords, lon_min, lon_max
     # Create a timer for log message on elapsed time
     timer = make_timer()
     # Run the simulations in parallel
-    results = [run_trial(i) for i in input] #pool.map(run_trial, inputs)
+    results = [run_trial(i) for i in inputs] #pool.map(run_trial, inputs)
     # Close the pool
     #pool.close()
     # Call the timer function for a log message on elapsed time
