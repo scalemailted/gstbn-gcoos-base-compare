@@ -128,7 +128,7 @@ def get_gcoos_nodes():
 
 
 #Load netcdf files (HYCOM) 
-def loadAllNCs(folder='../../hycom_dataset'):
+def loadAllNCs(folder='./hycom_dataset'):
     nc_list = []
     dirlist = os.listdir(folder)
     for filename in sorted(dirlist):
