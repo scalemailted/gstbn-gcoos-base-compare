@@ -5,9 +5,6 @@
 #TODO Future Strategy --> pack all ncvars into one multidim array 2d and process all residuals in one computation 
 
 import os
-from typing import _ProtocolMeta
-from webbrowser import get
-from xml.etree.ElementTree import tostring
 import netCDF4 as nc4
 import numpy as np
 import matplotlib.pyplot as p
@@ -104,6 +101,7 @@ def get_nodes_roi_at_time(nodelist, time):
             for ncvar in observations:
                 data[ncvar] = node.roi.timesnaps[time][ncvar]
             roi_snapshot.append(data)
+    print(snapshot_df)
     snapshot_df = pd.DataFrame.from_records(roi_snapshot)
     return snapshot_df
 
