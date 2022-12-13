@@ -1,5 +1,6 @@
 import random
-import pandas as pd
+#import pandas as pd
+import cudf as pd
 import hycom_nodes
 import gcoss_nodes
 import gstn_analysis
