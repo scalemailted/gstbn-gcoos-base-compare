@@ -12,7 +12,8 @@ import netCDF4 as nc4
 import numpy as np
 import matplotlib.pyplot as p
 import sys
-import pandas as pd
+#import pandas as pd
+import cudf as pd
 from ssted import frame_controller
 from ssted import tnet
 from ssted import network_writer
