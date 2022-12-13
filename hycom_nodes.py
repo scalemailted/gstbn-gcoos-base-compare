@@ -33,7 +33,7 @@ def get_edgelist(df):
     lonlat_df = gcoos_df[['Lon','Lat']].copy()
     #node_id = find_nearest_node_gcoos(lonlat_df,-90,30)
     #print(node_id)
-    edgelist = [find_nearest_node_gcoos(lonlat_df,lon,lat) for lon, lat in zip(df['lon'], df['lat'])]
+    edgelist = [find_nearest_node_gcoos(lonlat_df,lon,lat) for lon, lat in zip(df['Lon'], df['Lat'])]
     edges_df = pd.concat(edgelist, axis=0)
     print(edges_df)
     return edges_df
