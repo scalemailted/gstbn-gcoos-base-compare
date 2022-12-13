@@ -36,17 +36,16 @@ def main():
 
 
 # Define a function that runs a single trial of the simulation
-def run_trial(inputs):
+def run_trial(gpu_id, inputs):
     gpu_id, data = inputs
     # Set the GPU that the worker process will use
     with tf.device(f"/gpu:{gpu_id}"):
         # Run the task here
-        pass
-    lon, lat, gcoos_coords, hycom_coords = data
-    new_sensor = pd.DataFrame([{'Lon': lon, 'Lat': lat}])
-    updated_coords = pd.concat([gcoos_coords,new_sensor], ignore_index = True)
-    score = analyze(hycom_coords, updated_coords)
-    return (float(score['average_score']),lon,lat)
+        lon, lat, gcoos_coords, hycom_coords = data
+        new_sensor = pd.DataFrame([{'Lon': lon, 'Lat': lat}])
+        updated_coords = pd.concat([gcoos_coords,new_sensor], ignore_index = True)
+        score = analyze(hycom_coords, updated_coords)
+        return (float(score['average_score']),lon,lat)
 
 
 def insert_observer_node(trial_size, gcoos_coords,hycom_coords, lon_min, lon_max, lat_min, lat_max):
