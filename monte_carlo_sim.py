@@ -8,7 +8,6 @@ from ssted import tnet
 from multiprocessing import Pool
 # for timestamp log messages
 import time
-import tensorflow as tf
 
 def main():
     trial_size=100
@@ -34,43 +33,30 @@ def main():
 
 ####################################
 
-
 # Define a function that runs a single trial of the simulation
-def run_trial(gpu_id, inputs):
-    #gpu_id, data = inputs
-    # Set the GPU that the worker process will use
-    with tf.device(f"/gpu:{gpu_id}"):
-        # Run the task here
-        lon, lat, gcoos_coords, hycom_coords = inputs
-        new_sensor = pd.DataFrame([{'Lon': lon, 'Lat': lat}])
-        updated_coords = pd.concat([gcoos_coords,new_sensor], ignore_index = True)
-        score = analyze(hycom_coords, updated_coords)
-        return (float(score['average_score']),lon,lat)
+def run_trial(inputs):
+    lon, lat, gcoos_coords, hycom_coords = inputs
+    new_sensor = pd.DataFrame([{'Lon': lon, 'Lat': lat}])
+    updated_coords = pd.concat([gcoos_coords,new_sensor], ignore_index = True)
+    score = analyze(hycom_coords, updated_coords)
+    return (float(score['average_score']),lon,lat)
 
 
 def insert_observer_node(trial_size, gcoos_coords,hycom_coords, lon_min, lon_max, lat_min, lat_max):
-    # Get the number of GPUs available in Colab
-    num_gpus = len(tf.config.experimental.list_physical_devices('GPU'))
     # Create a pool of worker processes
-    #pool = Pool()
+    pool = Pool(100)
     # Generate the input data for the simulations
     inputs = []
-    # Use for loops to create a list of tuples containing GPU IDs and task IDs
-    for gpu_id in range(num_gpus):
-        for i in range(trial_size):
-            lon, lat = get_random_coord(lon_min, lon_max, lat_min, lat_max)
-            input_data = (lon, lat, gcoos_coords, hycom_coords)
-            inputs.append((gpu_id, input_data))
+    for i in range(trial_size):
+        lon, lat = get_random_coord(lon_min, lon_max, lat_min, lat_max)
+        inputs.append((lon, lat, gcoos_coords, hycom_coords))
     print("computing new observer...")
     # Create a timer for log message on elapsed time
     timer = make_timer()
     # Run the simulations in parallel
-    #results = pool.map(run_trial, inputs)
-    # Use the multiprocessing package to run the tasks on multiple GPUs
-    with Pool(processes=num_gpus) as pool:
-        results = pool.starmap(run_trial, inputs)
+    results = pool.map(run_trial, inputs)
     # Close the pool
-    #pool.close()
+    pool.close()
     # Call the timer function for a log message on elapsed time
     timer()
     # Process the results
